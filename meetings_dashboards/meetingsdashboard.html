@@ -17,7 +17,6 @@
                         <th class="col-lg-2">Time</th>
                         <th>Description</th>
                         <th class="col-lg-2">Location</th>
-                        <th class="col-lg-2">Library</th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -50,7 +49,6 @@
                             row.push("<td>" + record.fields.time + " - " + record.fields.endtime + "</td>");
                             row.push("<td>" + record.fields.description + "</td>");
                             row.push("<td>" + record.fields.location + "</td>");
-                            row.push("<td>"+ record.fields.library + "</td>");
                             row.push("<td>" + record.fields.status + "</td>");
                             row.push("</tr>");
                             row.join('');
@@ -62,25 +60,18 @@
                         }else{
                             continue;
                         }
-                    // monthly popularity data
-                    }else if(record.fields.enddate == '%'){
-                        $('#c').append(record.fields.date + " " + record.fields.time + '%<br>');
-                    // usage data
-                    }else{
-                        $('#b').append(record.fields.date + " " + record.fields.time + '<br>');
                     }
                 }
                 
-                for (var i = 0; i < meeting.records.length; i++) {
-                    var record = meeting.records[i];
-                    var time = record.fields.time.split(' ');
+                for (i = 0; i < meeting.records.length; i++) {
+                    record = meeting.records[i];
+                    time = record.fields.time.split(' ');
                     if(time[1] == 'PM' && time[0].split(':')[0] != '12'){
-                        var row = [];
+                        row = [];
                         row.push("<tr>");
                         row.push("<td>" + record.fields.time + " - " + record.fields.endtime + "</td>");
                         row.push("<td>" + record.fields.description + "</td>");
                         row.push("<td>" + record.fields.location + "</td>");
-                        row.push("<td>"+ record.fields.library + "</td>");
                         row.push("<td>" + record.fields.status + "</td>");
                         row.push("</tr>");
                         row.join('');
