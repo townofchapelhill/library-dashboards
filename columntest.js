@@ -46,10 +46,19 @@ function update_cards() {
             // save total amount of cards in variable
             var amount_total = all_patrons.nhits;
             // add expired amount and calculate percentage
-            $('#l0').text(amount_exp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-            $('#l1').text((amount_exp/amount_total * 100).toFixed(2));
+            $('#library-total').text(amount_exp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            $('#library-percent-expired').text((amount_exp/amount_total * 100).toFixed(2));
         });
     });    
+}
+
+// update number of datasets
+function update_num_datasets() {
+    $.getJSON("https://www.chapelhillopendata.org/api/datasets/1.0/search?rows=0&apikey=" + ODS_api + "&callback=?", function(datasets){
+        // save amount of datasets in variable
+        var amount_datasets = datasets.nhits;
+        $('#num_datasets').text(amount_datasets);
+    });      
 }
 
 // function that gets a json and updates the page 
@@ -63,6 +72,9 @@ function update_page() {
     
     // update library card info
     update_cards();
+    
+    // update number of datasets
+    update_num_datasets();
     
 }
 
