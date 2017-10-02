@@ -66,6 +66,7 @@ function update_circulator() {
     $.getJSON("https://www.chapelhillopendata.org/api/records/1.0/search/?dataset=circulator&rows=0&apikey=" + ODS_api + "&callback=?", function(circ_items){
         // save amount of items in circulator in variable
         var circ_values = circ_items.nhits;
+        $('#circ-location').text(circulator_location);
         $('#circulator').text(circ_values);
     });
 }
@@ -75,6 +76,7 @@ function update_page() {
     // gets local json file
     /*global $*/
     /*global ODS_api*/
+    /*global circulator_location*/
     
     // update meeting room info
     update_meetings();
