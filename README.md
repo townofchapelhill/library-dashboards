@@ -1,5 +1,5 @@
 # patron_scripts
-A list of patron scripts for the Chapel Hill Open Data portal. Data is retrieved from the Sierra API at https://sandbox.iii.com/docs/Content/titlePage.htm.
+A list of patron scripts for the Chapel Hill Open Data portal retrieved via the Sierra ILS API. More documentation about the Sierra API is available at https://sandbox.iii.com/docs/Content/titlePage.htm.
 
 <pre>
  _____ _                      _   _   _ _ _ _ 
