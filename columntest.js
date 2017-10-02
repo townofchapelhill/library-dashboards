@@ -57,8 +57,17 @@ function update_num_datasets() {
     $.getJSON("https://www.chapelhillopendata.org/api/datasets/1.0/search?rows=0&apikey=" + ODS_api + "&callback=?", function(datasets){
         // save amount of datasets in variable
         var amount_datasets = datasets.nhits;
-        $('#num_datasets').text(amount_datasets);
+        $('#num-datasets').text(amount_datasets);
     });      
+}
+
+// update circulator item info
+function update_circulator() {
+    $.getJSON("https://www.chapelhillopendata.org/api/records/1.0/search/?dataset=circulator&rows=0&apikey=" + ODS_api + "&callback=?", function(circ_items){
+        // save amount of items in circulator in variable
+        var circ_values = circ_items.nhits;
+        $('#circulator').text(circ_values);
+    });
 }
 
 // function that gets a json and updates the page 
@@ -75,6 +84,9 @@ function update_page() {
     
     // update number of datasets
     update_num_datasets();
+    
+    // update circulator
+    update_circulator();
     
 }
 
