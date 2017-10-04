@@ -59,80 +59,76 @@ def get_activepatrons():
     patron_ids.write(']}')
     patron_ids.close()
     
-    patron_ids.open("r")
+    read_patrons = open("patronids.json","r")
 
-    patronfile = json.load(patron_ids.read())
+    patronfile = json.load(read_patrons)
+    
+    # Create new json file to store just the IDs
+    id_file = open("patron_id_list.csv", "w")
+    
+    # Get list of patron IDs and write to CSV
+    for entry in patronfile["entries"]:
+        i = entry["id"]
+        id_file.write(str(entry["id"])+",")
+    
+# Function to get checkout info for each patron
+def get_checkout_info():
+    # Open the patron_ids.json file created by get_activepatrons() and load json
+    patron_ids = open("patronids.json", "r")
+    patronfile = json.load(patron_ids)
     
     # Create new json file to store just the IDs
     id_file = open("patron_id_list.json", "w")
     
-    # Get list of patron IDs
-    for entry in patronfile["entries"]:
-        i = entry["id"]
-        print(i)
-        id_file.write(entry["id"]+",")
-# Function to get checkout info for each patron
-# def get_checkout_info():
-#     # Open the patron_ids.json file created by get_activepatrons() and load json
-#     patron_ids = open("patronids.json", "r")
-#     patronfile = json.load(patron_ids)
+    # Create header text via get_token() 
+    header_text = {"Authorization": "Bearer " + get_token()}
     
-#     # Create new json file to store just the IDs
-#     id_file = open("patron_id_list.json", "w")
-    
-#     # Create header text via get_token() 
-#     header_text = {"Authorization": "Bearer " + get_token()}
-    
-#     # Prime loop 
-#     loop = True
-#     while loop == True:
+    # Prime loop 
+    loop = True
+    while loop == True:
         
-#         # Get list of patron IDs
-#         for entry in patronfile["entries"]:
-#             i = entry["id"]
-#             print(i)
-#             # URL to find checkout info 
-#             checkout_url = "https://catalog.chapelhillpubliclibrary.org:443/iii/sierra-api/v4/patrons/" + str(i) + "/checkouts?fields=dueDate%2CnumberOfRenewals"
-#             request = requests.get(checkout_url, headers=header_text)
-#             # Stop looping when the requests sends an error code/doesn't connect
-#             if request.status_code != 200:
-#                 break
-#             elif i != 0:
-#                 # adds a comma and newline for better organization and format
-#                 id_file.write(',\n')
-#             # Counter to find slice start point 
-#             counter = 1
-#             for letter in request.text:
-#                 if letter == '[':
-#                     break
-#                 counter += 1
+        # Get list of patron IDs
+        for entry in patronfile["entries"]:
+            i = entry["id"]
+            print(i)
+            # URL to find checkout info 
+            checkout_url = "https://catalog.chapelhillpubliclibrary.org:443/iii/sierra-api/v4/patrons/" + str(i) + "/checkouts?fields=dueDate%2CnumberOfRenewals"
+            request = requests.get(checkout_url, headers=header_text)
+            # Stop looping when the requests sends an error code/doesn't connect
+            if request.status_code != 200:
+                break
+            elif i != 0:
+                # adds a comma and newline for better organization and format
+                id_file.write(',\n')
+            # Counter to find slice start point 
+            counter = 1
+            for letter in request.text:
+                if letter == '[':
+                    break
+                counter += 1
                 
-#             # Slice off the beginning and ends of json to allow for combining all data
-#             sliced_json = request.text[counter:-2]
-#             print(sliced_json)
-    
-#             # Write data to patron json file 
-#             id_file.write(sliced_json)
+            # Slice off the beginning and ends of json to allow for combining all data
+            sliced_json = request.text[counter:-2]
+            print(sliced_json)
+            
+            
+            # Write data to patron json file 
+            id_file.write(sliced_json)
+            idlistfile = open("patron_id_list.json", "r")
+            for line in idlistfile.readlines():
+                print(line)
         
-#     print("get_checkout_info called")
-#     return(checkouts)
+    print("get_checkout_info called")
     
 
-# def main():
-#     get_activepatrons()
-    
-#     # Create final file to combine all info into 
-#     final_file = open("patroninformation.json", "w")
-#     # Call functions to get info
-#     checkout_info = get_checkout_info()
-#     final_file.write(checkout_info)
-
-#     print("main called")
-    
-# main()
-    
-def main(): 
+def main():
     get_activepatrons()
-    get_ids()
+    
+    # Create final file to combine all info into 
+    final_file = open("patroninformation.json", "w")
+    # Call functions to get info
+    final_file.write(get_checkout_info())
+
+    print("main called")
     
 main()
