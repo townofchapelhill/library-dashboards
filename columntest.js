@@ -71,6 +71,16 @@ function update_circulator() {
     });
 }
 
+// update patron info
+function update_patrons() {
+    $.getJSON("https://www.chapelhillopendata.org/api/records/1.0/download/?dataset=patron-dashboard&sort=expirationdate&format=json&apikey=" + ODS_api + "&callback=?", function(exp_patrons){
+        // save average age of unexpired patrons in variable
+        var age = exp_patrons[exp_patrons.length-1].fields;
+        age = age.names;
+        $('#avg-age').text(Math.round(age));
+    });
+}
+
 // function that gets a json and updates the page 
 function update_page() {
     // gets local json file
@@ -89,7 +99,9 @@ function update_page() {
     
     // update circulator
     update_circulator();
-    
+ 
+    // update patron info
+    update_patrons();
 }
 
 // function that calls update_page every specified minutes
