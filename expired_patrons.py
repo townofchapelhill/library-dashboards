@@ -18,7 +18,7 @@ def get_token():
     return token
 
 # function that creates a csv file and adds on expired patron's names, addresses, emails, and exp. date
-def create_csv(writer):
+def create_csv(writer, age_adder, p_counter):
     # first id is 100010
     id = 100010
 
@@ -31,7 +31,7 @@ def create_csv(writer):
     # loop until there are no more patron records (error code 200)
     while True:
         
-        url = "https://catalog.chapelhillpubliclibrary.org/iii/sierra-api/v3/patrons?limit=2000&deleted=false&fields=expirationDate,addresses,names,emails&id=["+str(id)+",]"
+        url = "https://catalog.chapelhillpubliclibrary.org/iii/sierra-api/v3/patrons?limit=2000&deleted=false&fields=expirationDate,addresses,names,emails,birthDate&id=["+str(id)+",]"
         request = requests.get(url, headers={
                     "Authorization": "Bearer " + token
                 })
@@ -55,6 +55,13 @@ def create_csv(writer):
                     row.append(entry["emails"][0])
                     row.append(entry["expirationDate"])
                     writer.writerow(row)
+                else:
+                    birth_year = int(entry["birthDate"].split('-')[0])
+                    age_adder += (now.year - birth_year)
+                    p_counter += 1
+                    # print("age:", now.year - birth_year)
+                    # print("total age:", age_adder)
+                    # print("total:", p_counter)
             except KeyError:
                 continue
         
@@ -63,10 +70,17 @@ def create_csv(writer):
         
         log_file.write("Records from id's " + str(id_prev) + " and on written to csv file, Accessing next page.\n")
         # print(id)
-        
+    
+    return age_adder/p_counter
 
 # create date variable
 today = datetime.date.today()
+
+# create variable for average age of all patrons
+total_age = 0
+    
+# create counter for all unexpired patrons
+patron_counter = 0
 
 # throw an error if a "/logs" directory doesn't exist
 try:
@@ -86,9 +100,10 @@ csvwriter = csv.writer(expired_patrons)
 # write a header & call the create_csv function
 log_file.write('Writing header on expired_patrons file. \n\n')
 csvwriter.writerow(['names','addresses','emails','expirationDate'])
-create_csv(csvwriter)
+avg_age = create_csv(csvwriter, total_age, patron_counter)
+csvwriter.writerow([avg_age])
 
-log_file.write("\nAll expired patron data has been successfully written to expire_patrons.csv.\n\n")
+log_file.write("\nAll expired patron data has been successfully written to expired_patrons.csv.\n\n")
 log_file.write(str(datetime.datetime.now()))
 
 # close files

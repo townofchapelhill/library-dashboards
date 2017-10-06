@@ -30,7 +30,7 @@ def update_patrons():
         # print(i) # for testing purposes
         
         # set request variable equal to URI at i's index, showing fields: createdDate, names, barcodes, expirationDate and deleted is false
-        request = requests.get("https://catalog.chapelhillpubliclibrary.org/iii/sierra-api/v3/patrons?offset=" + str(i) + "&limit=2000&fields=createdDate,names,barcodes,expirationDate,emails&deleted=false", headers={
+        request = requests.get("https://catalog.chapelhillpubliclibrary.org/iii/sierra-api/v3/patrons?offset=" + str(i) + "&limit=2000&fields=createdDate,names,barcodes,expirationDate,emails,blockInfo&deleted=false", headers={
             "Authorization": "Bearer " + token
         })
         
