@@ -1,0 +1,232 @@
+<html>
+    
+    <head>
+        <link rel="stylesheet" href="assets/css/odometer-theme-plaza.css"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="assets/js/odometer.min.js"></script>
+        <script src="https://use.fontawesome.com/53dde11fa6.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+        
+    <body>
+        
+        
+        <div class="container">
+            <h1 align='center'><i class="fa fa-user" aria-hidden="true"></i> Patrons</h1> 
+            <div class="row">
+                <div class="col-lg-8">
+                    <h5>Number of blocked patrons: </h5>
+                    <h5>Average Age: </h5>
+                    <h5>Chapel Hill Patrons: </h5>
+                    <h5>Other Patrons: </h5>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="container">
+            <h1 align='center'><i class="fa fa-id-card" aria-hidden="true"></i> Library Cards</h1> 
+            <div class="row">
+                <div class="col-lg-8">
+                    <h5 id=b>Total: </h5>
+                    <h5 id=c>Percent Expired: </h5>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <h1 align="center"><i class="fa fa-users" aria-hidden="true"></i> Meetings</h1>
+            <div class="row">
+                <div class="col-lg-8">
+                    <h3> Usage Data </h3>
+                    <p> Reservations today: <span id=0 class="odometer">0</span></p>
+                    <p> Reservations this week: <span id=1 class="odometer">0</span></p>
+                    <p> Reservations this month: <span id=2 class="odometer">0</span></p>
+                    <p> Reservations this year: <span id=3 class="odometer">0</span></p>
+                </div>
+            </div>
+        </div>
+      
+      
+      
+        <div class="container">
+            <h1 align='center'><i class="fa fa-barcode" aria-hidden="true"></i> Items</h1> 
+            <div class="row">
+                <div class="col-lg-8">
+                    <h5>Checkouts today: </h5>
+                    <h5>Returns today:</h5>
+                    <h5>Number overdue: </h5>
+                </div>
+            </div>
+        </div>
+      
+        <div class="container">
+            <h1 align='center'><i class="fa fa-line-chart" aria-hidden="true"></i> Open Data</h1> 
+            <div class="row">
+                <div class="col-lg-8">
+                    <h5>Number of datasets: </h5>
+                </div>
+            </div>
+        </div>
+            
+        <div class="container">
+            <h1 align='center'><i class="fa fa-truck" aria-hidden="true"></i></i> Circulator</h1> 
+            <div class="row">
+                <div class="col-lg-8">
+                    <h5>Current Location: </h5>
+                    <h5># of Items:</h5>
+                </div>
+            </div>
+        </div>
+ 
+      
+        
+        <script type="text/javascript" src="secrets.js"></script> 
+        <script type="text/javascript">
+            /*global $*/
+            // initialize variables for interval of refreshing
+            var minutes = 120;
+            var milliseconds = min_to_ms(minutes);
+            
+            // function that converts minutes to milliseconds for use in update_interval function
+            function min_to_ms(min){
+                return min*60*1000;
+            }
+            
+            // function that gets a json and updates the page 
+            function update_page() {
+                // gets local json file
+                /*global $*/
+                /*global ODS_api*/
+                $.getJSON("https://www.chapelhillopendata.org/api/records/1.0/search/?dataset=meeting-room-usage&rows=1000&sort=time&apikey=" + ODS_api + "&callback=?", function(meeting){
+                    var lengthOfMeeting = meeting.records.length;
+                    // initialize a variable to display the title (today's date) at the top and list of usage data
+                    var title = true;
+                    var usage_values = [];
+                    var popularity_headers = [];
+                    var popularity_values = [];
+                    
+                    // loops through file and adds a row of data to the table after each iteration
+                    for (var i = 0; i < meeting.records.length; i++) {
+                        var record = meeting.records[i];
+                        var time = record.fields.time.split(' ');
+                        // meeting room info and title
+                        if(record.fields.status == "Approved" || record.fields.status == "Pending"){
+                            if(time[1] == 'AM' || time[0].split(':')[0] == '12'){
+                                var row = [];
+                                row.push("<tr>");
+                                row.push("<td>" + record.fields.time + " - " + record.fields.endtime + "</td>");
+                                row.push("<td>" + record.fields.description + "</td>");
+                                row.push("<td>" + record.fields.location + "</td>");
+                                row.push("<td>"+ record.fields.library + "</td>");
+                                row.push("<td>" + record.fields.status + "</td>");
+                                row.push("</tr>");
+                                row.join('');
+                                $('.body').append(row + '');
+                                if(title){
+                                    $('#a').append(record.fields.date + '<br>');
+                                    title = false
+                                }
+                            }else{
+                                continue;
+                            }
+                        // monthly popularity data
+                        }else if(record.fields.enddate == '%'){
+                            popularity_headers.push(record.fields.date);
+                            popularity_values.push(Number(record.fields.time));
+                        // usage data
+                        }else{
+                            usage_values.push(Number(record.fields.time));
+                        }
+                    }
+                    
+                    for (var i = 0; i < meeting.records.length; i++) {
+                        var record = meeting.records[i];
+                        var time = record.fields.time.split(' ');
+                        if(time[1] == 'PM' && time[0].split(':')[0] != '12'){
+                            var row = [];
+                            row.push("<tr>");
+                            row.push("<td>" + record.fields.time + " - " + record.fields.endtime + "</td>");
+                            row.push("<td>" + record.fields.description + "</td>");
+                            row.push("<td>" + record.fields.location + "</td>");
+                            row.push("<td>"+ record.fields.library + "</td>");
+                            row.push("<td>" + record.fields.status + "</td>");
+                            row.push("</tr>");
+                            row.join('');
+                            $('.body').append(row + '');
+                            if(title){
+                                $('#a').append(record.fields.date + '<br>');
+                                title = false
+                            }
+                        }else{
+                            continue;
+                        }
+                    }
+                    
+                    for (var i = 0; i < usage_values.length; i++) {
+                        $('#' + i).text(usage_values[i]);
+                    }
+                    
+                    for (var i = 0; i < popularity_headers.length; i++) {
+                        var j = i + 4;
+                        $('#' + j).text(popularity_headers[i]);
+                    }
+                    
+                    for (var i = 0; i < popularity_values.length; i++) {
+                        var j = i + 11;
+                        $('#' + j).text(popularity_values[i]);
+                    }
+                    
+                });
+            }
+            
+            // function that calls update_page every specified minutes
+            function update_interval(interval) {
+                var update = setInterval(update_page, interval);
+            }
+            
+            // call update_page to get the initial values
+            update_page();
+            
+            // call update_interval to display the data and start timer
+            update_interval(milliseconds);
+            
+        </script>
+        
+         <script type="text/javascript" src="secrets.js"></script>
+        <script>
+            // gets local json files
+            /*global $*/
+            /*global ODS_api*/
+            $.getJSON("https://www.chapelhillopendata.org/api/records/1.0/search/?dataset=patron-dashboard&rows=1&apikey=" + ODS_api + "&callback=?", function(exp_patron){
+                var amount_exp = exp_patron.nhits
+                $.getJSON("https://www.chapelhillopendata.org/api/records/1.0/search/?dataset=patrons&rows=1&apikey=" + ODS_api + "&callback=?", function(all_patrons){
+                    var amount_total = all_patrons.nhits;
+                    $('#b').append(amount_exp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                    $('#c').append((amount_exp/amount_total * 100).toFixed(2) + '%');
+                });
+            });
+            
+            $.getJSON("https://www.chapelhillopendata.org/api/records/1.0/download/?dataset=patron-dashboard&sort=expirationdate&format=json&apikey=" + ODS_api + "&callback=?", function(exp_patrons){
+                for(var i = 0; i < 5000; i++) {
+                    var patron = exp_patrons[i].fields;
+                    var row = []
+                    row.push()
+                    row.push("<tr>");
+                    row.push("<td>" + patron.names + "</td>");
+                    row.push("<td>" + patron.addresses.slice(1,-1) + "</td>");
+                    row.push("<td>" + patron.emails + "</td>");
+                    row.push("<td>"+ patron.expirationdate + "</td>");
+                    row.push("</tr>");
+                    row.join('');
+                    $('.body').append(row + '');
+                }
+            });
+        </script>
+        
+        
+        
+    </body>
+    
+</html>
