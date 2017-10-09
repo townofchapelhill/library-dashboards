@@ -73,11 +73,12 @@ function update_circulator() {
 
 // update patron info
 function update_patrons() {
-    $.getJSON("https://www.chapelhillopendata.org/api/records/1.0/download/?dataset=patron-dashboard&sort=expirationdate&format=json&apikey=" + ODS_api + "&callback=?", function(exp_patrons){
+    $.getJSON("https://www.chapelhillopendata.org/api/records/1.0/search/?dataset=patron-data&apikey=" + ODS_api + "&callback=?", function(patron_data){
         // save average age of unexpired patrons in variable
-        var age = exp_patrons[exp_patrons.length-1].fields;
-        age = age.names;
+        var age = patron_data.records[0].fields.average_age;
+        var blocked = patron_data.records[0].fields.blocked_patrons;
         $('#avg-age').text(Math.round(age));
+        $('#blocked').text(blocked);
     });
 }
 
