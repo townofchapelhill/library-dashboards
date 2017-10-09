@@ -1,0 +1,60 @@
+<html>
+    
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+    
+    <body>
+        <h2 id=a align='center'>Patrons page 3<br></h2>
+        <!-- create a table with appropriate headers-->
+        <div class="container">
+            <div class="table-responsive">
+            <table class="table table-condensed table-striped">
+                <thead>
+                    <tr>
+                        <th class="col-lg-2">Name</th>
+                        <th class="col-lg-2">Address</th>
+                        <th class="col-lg-2">Email</th>
+                        <th class="col-lg-2">Expiration Date</th>
+                    </tr>
+                </thead>
+                <tbody class="body">
+                </tbody>
+            </table>
+            </div>
+        </div>
+        <br>
+        <div class="container">
+            <a href="patron_dashboard_p4.html"> Next > </a>
+        </div>
+        <br><br>
+        
+        <script type="text/javascript" src="secrets.js"></script>
+        <script>
+            // gets local json files
+            /*global $*/
+            /*global ODS_api*/
+            
+            $.getJSON("https://www.chapelhillopendata.org/api/records/1.0/download/?dataset=patron-dashboard&sort=expirationdate&format=json&apikey=" + ODS_api + "&callback=?", function(exp_patrons){
+                //alert(exp_patrons.length);
+                for(var i = 10000; i < 15000; i++) {
+                    var patron = exp_patrons[i].fields;
+                    var row = []
+                    row.push()
+                    row.push("<tr>");
+                    row.push("<td>" + patron.names + "</td>");
+                    row.push("<td>" + patron.addresses.slice(1,-1) + "</td>");
+                    row.push("<td>" + patron.emails + "</td>");
+                    row.push("<td>"+ patron.expirationdate + "</td>");
+                    row.push("</tr>");
+                    row.join('');
+                    $('.body').append(row + '');
+                }
+            });
+        </script>
+
+    </body>
+    
+</html>

@@ -1,0 +1,92 @@
+<html>
+    
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+    
+    <body>
+        <h2 id=a align='center'></h2>
+        <!-- create a table with appropriate headers-->
+        <div class="container">
+            <div class="table-responsive">
+            <table class="table table-condensed table-striped">
+                <thead>
+                    <tr>
+                        <th class="col-lg-2">Time</th>
+                        <th>Description</th>
+                        <th class="col-lg-2">Location</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody class="body">
+                </tbody>
+            </table>
+            </div>
+        </div>
+        <br><br><br>
+        
+        <script type="text/javascript" src="secrets.js"></script> 
+        <script type="text/javascript">
+            // gets local json file
+            /*global $*/
+            /*global ODS_api*/
+            $.getJSON("https://www.chapelhillopendata.org/api/records/1.0/search/?dataset=meeting-room-usage&rows=1000&sort=time&apikey=" + ODS_api + "&callback=?", function(meeting){
+                var lengthOfMeeting = meeting.records.length;
+                // initialize a variable to display the title (today's date) at the top
+                var title = true
+                
+                // loops through file and adds a row of data to the table after each iteration
+                for (var i = 0; i < meeting.records.length; i++) {
+                    var record = meeting.records[i];
+                    var time = record.fields.time.split(' ')
+                    // meeting room info and title
+                    if(record.fields.status == "Approved" || record.fields.status == "Pending"){
+                        if(time[1] == 'AM' || time[0].split(':')[0] == '12'){
+                            var row = [];
+                            row.push("<tr>");
+                            row.push("<td>" + record.fields.time + " - " + record.fields.endtime + "</td>");
+                            row.push("<td>" + record.fields.description + "</td>");
+                            row.push("<td>" + record.fields.location + "</td>");
+                            row.push("<td>" + record.fields.status + "</td>");
+                            row.push("</tr>");
+                            row.join('');
+                            $('.body').append(row + '');
+                            if(title){
+                                $('#a').append(record.fields.date + '<br>');
+                                title = false
+                            }
+                        }else{
+                            continue;
+                        }
+                    }
+                }
+                
+                for (i = 0; i < meeting.records.length; i++) {
+                    record = meeting.records[i];
+                    time = record.fields.time.split(' ');
+                    if(time[1] == 'PM' && time[0].split(':')[0] != '12'){
+                        row = [];
+                        row.push("<tr>");
+                        row.push("<td>" + record.fields.time + " - " + record.fields.endtime + "</td>");
+                        row.push("<td>" + record.fields.description + "</td>");
+                        row.push("<td>" + record.fields.location + "</td>");
+                        row.push("<td>" + record.fields.status + "</td>");
+                        row.push("</tr>");
+                        row.join('');
+                        $('.body').append(row + '');
+                        if(title){
+                            $('#a').append(record.fields.date + '<br>');
+                            title = false
+                        }
+                    }else{
+                        continue;
+                    }
+                }
+            });
+        </script>
+
+    </body>
+    
+</html>
