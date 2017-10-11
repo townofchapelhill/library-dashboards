@@ -82,6 +82,13 @@ function update_patrons() {
     });
 }
 
+// update items info
+function update_items() {
+    $.getJSON("https://www.chapelhillopendata.org/api/records/1.0/search/?dataset=overdue-items&rows=1&apikey=" + ODS_api + "&callback=?", function(od_items) {
+       $('#overdue').text(od_items.nhits) 
+    });
+}
+
 // function that gets a json and updates the page 
 function update_page() {
     // gets local json file
@@ -103,6 +110,10 @@ function update_page() {
  
     // update patron info
     update_patrons();
+    
+    //update items info
+    update_items();
+    
 }
 
 // function that calls update_page every specified minutes
