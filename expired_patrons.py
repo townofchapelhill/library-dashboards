@@ -96,22 +96,25 @@ except:
     error_file.close()
     
 # open csv file for writing
-log_file.write('Creating expired_patrons.csv file.\n\n')
-expired_patrons = open('expired_patrons.csv', 'w')
-patron_data = open('patron_data.csv', 'w')
+log_file.write('Creating expired_patrons.csv file.\n')
+expired_patrons = open('//CHFS/Shared Documents/OpenData/datasets/staging/department/expired_patrons.csv', 'w')
+log_file.write('Creating patron_data.csv file.\n\n')
+patron_data = open('//CHFS/Shared Documents/OpenData/datasets/staging/department/patron_data.csv', 'w')
 
 # create a csvwriter object
 exp_csvwriter = csv.writer(expired_patrons)
 dashboard_csvwriter = csv.writer(patron_data)
 
 # write a header & call the create_csv function
-log_file.write('Writing header on expired_patrons file. \n\n')
+log_file.write('Writing header on expired_patrons file.\n')
 exp_csvwriter.writerow(['names','addresses','emails','expirationDate'])
+log_file.write('Writing header on patron_data file. \n\n')
 dashboard_csvwriter.writerow(['average age','blocked patrons'])
 avg_age, blocked_patrons = create_csv(exp_csvwriter, total_age, patron_counter, blocked_counter)
 dashboard_csvwriter.writerow([avg_age,blocked_patrons])
 
-log_file.write("\nAll expired patron data has been successfully written to expired_patrons.csv.\n\n")
+log_file.write("\nAll expired patron data has been successfully written to expired_patrons.csv.\n")
+log_file.write("Average age and blocked patron data has been successfully written to patron_data.csv.\n\n")
 log_file.write(str(datetime.datetime.now()))
 
 # close files
