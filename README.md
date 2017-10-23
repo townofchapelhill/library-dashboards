@@ -1,5 +1,7 @@
-# patron_scripts
-A list of patron scripts for the Chapel Hill Open Data portal retrieved via the Sierra ILS API. More documentation about the Sierra API is available at https://sandbox.iii.com/docs/Content/titlePage.htm.
+# Library Dashboards
+
+
+This repository contains html pages that organize information into dashboards for library use.
 
 <pre>
  _____ _                      _   _   _ _ _ _ 
@@ -10,4 +12,4 @@ A list of patron scripts for the Chapel Hill Open Data portal retrieved via the 
  \____/_| |_|\__,_| .__/ \___|_| \_| |_/_|_|_|
                   | |                         
                   |_|       
-</pre>  
+</pre>                  
