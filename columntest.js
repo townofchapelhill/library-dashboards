@@ -46,8 +46,9 @@ function update_cards() {
         $.getJSON("https://www.chapelhillopendata.org/api/records/1.0/search/?dataset=patrons&rows=1&apikey=" + ODS_api + "&callback=?", function(all_patrons){
             // save total amount of cards in variable
             var amount_total = all_patrons.nhits;
+            var active = amount_total - amount_exp;
             // add expired amount and calculate percentage
-            $('#library-total').text(amount_exp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            $('#library-total').text(active.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
             $('#library-percent-expired').text((amount_exp/amount_total * 100).toFixed(2));
         });
     });    
@@ -86,7 +87,11 @@ function update_patrons() {
 // update items info
 function update_items() {
     $.getJSON("https://www.chapelhillopendata.org/api/records/1.0/search/?dataset=overdue-items&rows=1&apikey=" + ODS_api + "&callback=?", function(od_items) {
-       $('#overdue').text(od_items.nhits) 
+        // add amount of overdue items to checked out items
+        $.getJSON("https://www.chapelhillopendata.org/api/records/1.0/search/?dataset=checked-out-items&rows=1&apikey=" + ODS_api + "&callback=?", function(co_items) {
+            $('#checked').text(co_items.nhits+od_items.nhits);
+        });
+        $('#overdue').text(od_items.nhits);
     });
 }
 
