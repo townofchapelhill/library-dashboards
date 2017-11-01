@@ -86,11 +86,17 @@ function update_patrons() {
 
 // update items info
 function update_items() {
+    var total_checked_out = 0;
     $.getJSON("https://www.chapelhillopendata.org/api/records/1.0/search/?dataset=overdue-items&rows=1&apikey=" + ODS_api + "&callback=?", function(od_items) {
         // add amount of overdue items to checked out items
         $.getJSON("https://www.chapelhillopendata.org/api/records/1.0/search/?dataset=checked-out-items&rows=1&apikey=" + ODS_api + "&callback=?", function(co_items) {
-            $('#checked').text(co_items.nhits+od_items.nhits);
+            total_checked_out = co_items.nhits+od_items.nhits;
+            $('#checked').text(total_checked_out);
+            $.getJSON("https://www.chapelhillopendata.org/api/records/1.0/search/?dataset=library-items&rows=1&facet=status&refine.status=AVAILABLE&apikey=" + ODS_api + "&callback=?", function(total_a) {
+                $('#totalAvailable').text(total_a.nhits - total_checked_out);
+            });
         });
+        
         $('#overdue').text(od_items.nhits);
     });
 }
