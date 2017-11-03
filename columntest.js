@@ -63,13 +63,28 @@ function update_num_datasets() {
     });      
 }
 
-// update circulator item info
-function update_circulator() {
-    $.getJSON("https://www.chapelhillopendata.org/api/records/1.0/search/?dataset=circulator&rows=0&apikey=" + ODS_api + "&callback=?", function(circ_items){
-        // save amount of items in circulator in variable
-        var circ_values = circ_items.nhits;
-        $('#circ-location').text(circulator_location);
-        $('#circulator').text(circ_values);
+// update website data info
+function update_site_data() {
+    var variable;
+    $.getJSON("https://www.chapelhillopendata.org/api/records/1.0/search/?dataset=daily-sessions-chpl-website&apikey=" + ODS_api + "&callback=?", function(daily_sessions){
+        // save amount of sessions today in variable
+        variable = daily_sessions.records[0].fields.column_2;
+        $('#sToday').text(variable);
+    });
+    $.getJSON("https://www.chapelhillopendata.org/api/records/1.0/search/?dataset=monthly-sessions-chpl-website&apikey=" + ODS_api + "&callback=?", function(monthly_sessions){
+        // save amount of sessions this month in variable
+        variable = monthly_sessions.records[0].fields.column_2;
+        $('#sMonth').text(variable);
+    });
+    $.getJSON("https://www.chapelhillopendata.org/api/records/1.0/search/?dataset=dailysearch&sort=column_2&apikey=" + ODS_api + "&callback=?", function(daily_search){
+        // save top searches today in variable
+        variable = daily_search.records[0].fields.column_1;
+        $('#topToday').text(variable);
+    });
+    $.getJSON("https://www.chapelhillopendata.org/api/records/1.0/search/?dataset=monthlysearch&sort=column_2&apikey=" + ODS_api + "&callback=?", function(monthly_search){
+        // save top searches this month in variable
+        variable = monthly_search.records[0].fields.column_1;
+        $('#topMonth').text(variable);
     });
 }
 
@@ -118,7 +133,7 @@ function update_page() {
     update_num_datasets();
     
     // update circulator
-    update_circulator();
+    update_site_data();
  
     // update patron info
     update_patrons();
