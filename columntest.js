@@ -109,6 +109,7 @@ function update_items() {
             $('#checked').text(total_checked_out);
             $.getJSON("https://www.chapelhillopendata.org/api/records/1.0/search/?dataset=library-items&rows=1&facet=status&refine.status=AVAILABLE&apikey=" + ODS_api + "&callback=?", function(total_a) {
                 $('#totalAvailable').text(total_a.nhits - total_checked_out);
+                $('#items-percent-out').text((total_checked_out/total_a.nhits*100).toFixed(2));
             });
         });
         
