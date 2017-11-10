@@ -17,14 +17,7 @@ function update_meetings() {
         // loops through file and adds a row of data to the table after each iteration
         for (var i = 0; i < meeting.records.length; i++) {
             var record = meeting.records[i];
-            // skip table data
-            if(record.fields.status == "Approved" || record.fields.status == "Pending"){
-                continue;
-            // monthly popularity data
-            }else if(record.fields.enddate == '%'){
-                continue;
-            // usage data
-            }else{
+            if(record.fields.date.includes("Reservations")) {
                 usage_values.push(Number(record.fields.time));
             }
         }
