@@ -48,12 +48,18 @@ function update_cards() {
 }
 
 // update number of datasets
-function update_num_datasets() {
-    $.getJSON("https://www.chapelhillopendata.org/api/datasets/1.0/search?rows=0&apikey=" + ODS_api + "&callback=?", function(datasets){
-        // save amount of datasets in variable
-        var amount_datasets = datasets.nhits;
-        $('#num-datasets').text(amount_datasets);
+function update_catalog_data() {
+    var temp;
+    $.getJSON("https://www.chapelhillopendata.org/api/records/1.0/search/?dataset=daily-catalog-searches&sort=column_2&apikey=" + ODS_api + "&callback=?", function(dailyCat){
+        // save top searches today in variable
+        temp = dailyCat.records[0].fields.column_1;
+        $('#topCatToday').text(temp);
     });      
+    $.getJSON("https://www.chapelhillopendata.org/api/records/1.0/search/?dataset=monthly-library-catalog-searches&sort=column_2&apikey=" + ODS_api + "&callback=?", function(monthlyCat){
+        // save top searches this month in variable
+        temp = monthlyCat.records[0].fields.column_1;
+        $('#topCatMonth').text(temp);
+    });   
 }
 
 // update website data info
@@ -123,10 +129,10 @@ function update_page() {
     // update library card info
     update_cards();
     
-    // update number of datasets
-    update_num_datasets();
+    // update catalog info
+    update_catalog_data();
     
-    // update circulator
+    // update website info
     update_site_data();
  
     // update patron info
