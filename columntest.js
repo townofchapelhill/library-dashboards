@@ -1,6 +1,6 @@
 /*global $*/
 // initialize variables for interval of refreshing
-var minutes = 120;
+var minutes = 60;
 var milliseconds = min_to_ms(minutes);
 
 // function that converts minutes to milliseconds for use in update_interval function
