@@ -10,3 +10,8 @@
 p {
     font-size: 140%;
 }
+
+#stamp {
+  font-size: 90%;
+  float: right
+}

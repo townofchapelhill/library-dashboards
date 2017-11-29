@@ -140,6 +140,8 @@ function update_page() {
     //update items info
     update_items();
     
+    var d = new Date();
+    $('#stamp').text('Updated: ' + d.toUTCString());
 }
 
 // function that calls update_page every specified minutes
