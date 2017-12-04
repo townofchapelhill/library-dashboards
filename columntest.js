@@ -1,6 +1,6 @@
 /*global $*/
 // initialize variables for interval of refreshing
-var minutes = 60;
+var minutes = 15;
 var milliseconds = min_to_ms(minutes);
 
 // function that converts minutes to milliseconds for use in update_interval function
@@ -137,11 +137,15 @@ function update_page() {
     // update patron info
     update_patrons();
     
-    //update items info
+    // update items info
     update_items();
     
+    // display updated date
     var d = new Date();
-    $('#stamp').text('Updated: ' + d.toUTCString());
+    var offset = -300;
+    var estDate = new Date(d.getTime() + offset*60*1000);
+    var uDate = estDate.toUTCString().replace('GMT', '');
+    $('#stamp').text('Updated: ' + uDate);
 }
 
 // function that calls update_page every specified minutes
