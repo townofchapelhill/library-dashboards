@@ -12,7 +12,7 @@
 
     <body>
     
-        <div class="row" style="height:50%">
+        <div class="row" style="height:49%">
           <div class="col-xs-12 col-sm-4" style="color: white; background-color: #1975bc">
                 <h1 align='center'><i class="fa fa-user" aria-hidden="true"></i> Patrons</h1> 
                 <div class="row">
@@ -38,16 +38,16 @@
                 <div class="row">
                     <div class="col-lg-8">
                         <p> Today: <span id="m0" class="odometer">0</span></p>
-                        <p> This week: <span id="m1" class="odometer">0</span></p>
-                        <p> This month: <span id="m2" class="odometer">0</span></p>
-                        <p> This year: <span id="m3" class="odometer">0</span></p>
+                        <p> Since Sunday: <span id="m1" class="odometer">0</span></p>
+                        <p> In <span class ="currMonth">month</span>: <span id="m2" class="odometer">0</span></p>
+                        <p> In <span class ="currYear" class="odometer">0</span>: <span id="m3" class="odometer">0</span></p>
                     </div>
                 </div>
           </div>
         </div>
         
         
-        <div class="row" style="height:50%">
+        <div class="row" style="height:48%">
           <div class="col-xs-6 col-sm-4" style="color: white; background-color: #00bff3">
                 <h1 align='center'><i class="fa fa-barcode" aria-hidden="true"></i> Items</h1> 
                 <div class="row">
@@ -65,13 +65,13 @@
                 <div class="row">
                     <div class="col-lg-8">
                         <p>Top search today: <span id="topCatToday">None</span></p>
-                        <form style="color: black" action="daily_cat_searches.html">
+<!--                         <form style="color: black" action="daily_cat_searches.html">
                             <input type="submit" value="More searches today"/>
-                        </form>
-                        <p>Top search this month: <span id="topCatMonth">None</span>
-                        <form style="color: black" action="monthly_cat_searches.html">
+                        </form> -->
+                        <p>Top search in the past 30 days: <span id="topCatMonth">None</span>
+<!--                         <form style="color: black" action="monthly_cat_searches.html">
                             <input type="submit" value="More searches this month"/>
-                        </form>
+                        </form> -->
                         </p>
                     </div>
                 </div>
@@ -82,13 +82,17 @@
                 <div class="row">
                     <div class="col-lg-8">
                         <p>Sessions today: <span id="sToday" class="odometer">0</span></p>
-                        <p>Sessions this month: <span id="sMonth" class="odometer">0</span></p>
-                        <!--<p>Top search today: <span id="topToday">None</span></p>-->
-                        <p>Top search this month: <span id="topMonth">None</span></p>
+                        <p>Sessions in the past 30 days: <span id="sMonth" class="odometer">0</span></p>
+                        <p>Top search today: <span id="topToday">None</span></p>
+                        <p>Top search in the past 30 days: <span id="topMonth">None</span></p>
                     </div>
                 </div>
-                <br><br><br>
-                <p id="stamp" style="color: black"></p>
+          </div>
+        </div>
+
+        <div class="row" style="height:3%">
+          <div class="col-sm-12" style="color: white; background-color: gray">
+                <p id="stamp" style="color: black"></p> 
           </div>
         </div>
         
