@@ -2,6 +2,13 @@
 // initialize variables for interval of refreshing
 var minutes = 15;
 var milliseconds = min_to_ms(minutes);
+var monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"];
+var d = new Date();
+var currMonth = d.getMonth();
+var currYear = d.getFullYear();
+$('.currMonth').text(monthNames[currMonth]);
+$('.currYear').text(currYear);
 
 // function that converts minutes to milliseconds for use in update_interval function
 function min_to_ms(min) {
