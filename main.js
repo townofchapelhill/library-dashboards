@@ -150,7 +150,7 @@ function update_page() {
     // display updated date
     var d = new Date();
     var offset = -300;
-    var estDate = new Date(d.getTime()+1 + offset*60*1000);
+    var estDate = new Date(d.getTime() + offset*60*1000);
     var uDate = estDate.toUTCString().replace('GMT', '');
     $('#stamp').text('Updated: ' + uDate);
 }
