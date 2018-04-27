@@ -2,7 +2,7 @@
     
     <head>
         <link rel="stylesheet" href="assets/css/odometer-theme-minimal.css"/>
-        <link rel="stylesheet" href="columntest.css"/>
+        <link rel="stylesheet" href="main.css"/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="assets/js/odometer.min.js"></script>
         <script src="https://use.fontawesome.com/53dde11fa6.js"></script>
@@ -41,6 +41,9 @@
                         <p> Since Sunday: <span id="m1" class="odometer">0</span></p>
                         <p> In <span class ="currMonth">month</span>: <span id="m2" class="odometer">0</span></p>
                         <p> In <span class ="currYear" class="odometer">0</span>: <span id="m3" class="odometer">0</span></p>
+                        <form style="color: black" action="meeting_graph.html">
+                            <input type="submit" value="Monthly Graph"/>
+                         </form>
                     </div>
                 </div>
           </div>
@@ -65,14 +68,13 @@
                 <div class="row">
                     <div class="col-lg-8">
                         <p>Top search today: <span id="topCatToday">None</span></p>
-<!--                         <form style="color: black" action="daily_cat_searches.html">
+                         <form style="color: black" action="daily_cat_searches.html">
                             <input type="submit" value="More searches today"/>
-                        </form> -->
-                        <p>Top search in the past 30 days: <span id="topCatMonth">None</span>
-<!--                         <form style="color: black" action="monthly_cat_searches.html">
+                         </form>
+                        <p>Top search in the past 30 days: <span id="topCatMonth">None</span></p>
+                         <form style="color: black" action="monthly_cat_searches.html">
                             <input type="submit" value="More searches this month"/>
-                        </form> -->
-                        </p>
+                         </form>
                     </div>
                 </div>
           </div>
@@ -97,7 +99,7 @@
         </div>
         
         <script type="text/javascript" src="secrets.js"></script>
-        <script type="text/javascript" src="columntest.js"></script>
+        <script type="text/javascript" src="main.js"></script>
         <script type="text/javascript" src="screensaver.js"></script>
     </body>
     

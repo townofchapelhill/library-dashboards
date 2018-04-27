@@ -1,0 +1,18 @@
+<html>
+    
+    <body>
+        <iframe id="frame" src="" width="950" height="750" frameborder="0"></iframe>
+        <br><br>
+        <form style="color: black" action="index.html">
+            <input type="submit" value="Back"/>
+        </form>
+    </body>
+
+    <script>
+        var d = new Date();
+        var currMonth = d.getMonth()+1;
+        var currYear = d.getFullYear();
+        document.getElementById('frame').src = "https://www.chapelhillopendata.org/explore/embed/dataset/cumulative-meeting-room-usage/analyze/?sort=-enddate&refine.enddate="+currYear+"%2F"+currMonth+"&dataChart=eyJxdWVyaWVzIjpbeyJjaGFydHMiOlt7InR5cGUiOiJsaW5lIiwiZnVuYyI6IkNPVU5UIiwic2NpZW50aWZpY0Rpc3BsYXkiOnRydWUsImNvbG9yIjoiIzY2YzJhNSJ9XSwieEF4aXMiOiJlbmRkYXRlIiwibWF4cG9pbnRzIjo1MCwidGltZXNjYWxlIjoiZGF5Iiwic29ydCI6IiIsImNvbmZpZyI6eyJkYXRhc2V0IjoiY3VtdWxhdGl2ZS1tZWV0aW5nLXJvb20tdXNhZ2UiLCJvcHRpb25zIjp7InNvcnQiOiItZW5kZGF0ZSIsInJlZmluZS5lbmRkYXRlIjpbIjIwMTgvMDQiXX19LCJzZXJpZXNCcmVha2Rvd25UaW1lc2NhbGUiOiIifV0sInRpbWVzY2FsZSI6IiIsImRpc3BsYXlMZWdlbmQiOnRydWV9&static=false&datasetcard=false"
+    </script>
+
+</html>
